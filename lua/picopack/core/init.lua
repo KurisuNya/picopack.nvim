@@ -281,7 +281,7 @@ M.clean = function()
   end
   local unmanaged = Status.unmanaged()
   if #unmanaged > 0 then
-    vim.pack.del(unmanaged)
+    Safecall.now(function() vim.pack.del(unmanaged) end)
   end
 end
 
