@@ -372,6 +372,7 @@ M.update = function(confirm)
   end
 end
 
+---@return boolean success
 M.start = function()
   if start_enter then
     Utils.fail('start', 'picopack start already called')
@@ -392,11 +393,11 @@ M.start = function()
     Utils.notify('failed to build some plugins, please rebuild manually and restart', 'ERROR')
   end
   if not success or not build_ok then
-    return
+    return false
   end
   if changed and not Safecall.now(function() vim.cmd('restart!') end) then
     Utils.notify('failed to restart after syncing plugins, please restart manually', 'ERROR')
-    return
+    return false
   end
 
   -- run init functions
@@ -452,6 +453,7 @@ M.start = function()
   end
 
   start_finished = true
+  return true
 end
 
 return M
